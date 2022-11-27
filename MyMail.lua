@@ -38,14 +38,14 @@ function MailFrame_OnLoad(self)
 	MoneyInputFrame_SetPreviousFocus(SendMailMoney, MailEditBox);
 	MoneyInputFrame_SetNextFocus(SendMailMoney, SendMailNameEditBox);
 	MoneyFrame_SetMaxDisplayWidth(SendMailMoneyFrame, 160);
-	MailFrame_UpdateTrialState(self);
+	-- MailFrame_UpdateTrialState(self);
 end
 
-function MailFrame_UpdateTrialState(self)
-	local isTrialOrVeteran = GameLimitedMode_IsActive();
-	MailFrameTab2:SetShown(not isTrialOrVeteran);
-	self.trialError:SetShown(isTrialOrVeteran);
-end
+-- function MailFrame_UpdateTrialState(self)
+-- 	local isTrialOrVeteran = GameLimitedMode_IsActive();
+-- 	MailFrameTab2:SetShown(not isTrialOrVeteran);
+-- 	self.trialError:SetShown(isTrialOrVeteran);
+-- end
 
 function MailFrame_OnEvent(self, event, ...)
 	if ( event == "MAIL_SHOW" ) then
@@ -104,8 +104,8 @@ function MailFrame_OnEvent(self, event, ...)
 	elseif ( event == "MAIL_UNLOCK_SEND_ITEMS") then
 		SendMailFrameLockSendMail:Hide();
 		StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE");
-	elseif ( event == "TRIAL_STATUS_UPDATE" ) then
-		MailFrame_UpdateTrialState(self);
+	-- elseif ( event == "TRIAL_STATUS_UPDATE" ) then
+	-- 	MailFrame_UpdateTrialState(self);
 	end
 end
 
