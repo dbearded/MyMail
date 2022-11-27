@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: MyMail
+## Notes: A portable read-only MailBox
+
+MyMail.lua
+MyMail.xml
