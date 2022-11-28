@@ -32,26 +32,26 @@ function MailFrame_OnLoad(self)
 	self:RegisterEvent("MAIL_SHOW");
 	self:RegisterEvent("MAIL_INBOX_UPDATE");
 	self:RegisterEvent("MAIL_CLOSED");
-	self:RegisterEvent("MAIL_SEND_INFO_UPDATE");
-	self:RegisterEvent("MAIL_SEND_SUCCESS");
-	self:RegisterEvent("MAIL_FAILED");
-	self:RegisterEvent("MAIL_SUCCESS");	
+	-- self:RegisterEvent("MAIL_SEND_INFO_UPDATE");
+	-- self:RegisterEvent("MAIL_SEND_SUCCESS");
+	-- self:RegisterEvent("MAIL_FAILED");
+	-- self:RegisterEvent("MAIL_SUCCESS");	
 	self:RegisterEvent("CLOSE_INBOX_ITEM");
-	self:RegisterEvent("MAIL_LOCK_SEND_ITEMS");
-	self:RegisterEvent("MAIL_UNLOCK_SEND_ITEMS");
-	self:RegisterEvent("TRIAL_STATUS_UPDATE");
+	-- self:RegisterEvent("MAIL_LOCK_SEND_ITEMS");
+	-- self:RegisterEvent("MAIL_UNLOCK_SEND_ITEMS");
+	-- self:RegisterEvent("TRIAL_STATUS_UPDATE");
 	-- Set previous and next fields
-	MoneyInputFrame_SetPreviousFocus(SendMailMoney, MailEditBox);
-	MoneyInputFrame_SetNextFocus(SendMailMoney, SendMailNameEditBox);
-	MoneyFrame_SetMaxDisplayWidth(SendMailMoneyFrame, 160);
-	MailFrame_UpdateTrialState(self);
+	-- MoneyInputFrame_SetPreviousFocus(SendMailMoney, MailEditBox);
+	-- MoneyInputFrame_SetNextFocus(SendMailMoney, SendMailNameEditBox);
+	-- MoneyFrame_SetMaxDisplayWidth(SendMailMoneyFrame, 160);
+	-- MailFrame_UpdateTrialState(self);
 end
 
-function MailFrame_UpdateTrialState(self)
-	local isTrialOrVeteran = GameLimitedMode_IsActive();
-	MailFrameTab2:SetShown(not isTrialOrVeteran);
-	self.trialError:SetShown(isTrialOrVeteran);
-end
+-- function MailFrame_UpdateTrialState(self)
+-- 	local isTrialOrVeteran = GameLimitedMode_IsActive();
+-- 	MailFrameTab2:SetShown(not isTrialOrVeteran);
+-- 	self.trialError:SetShown(isTrialOrVeteran);
+-- end
 
 function MailFrame_OnEvent(self, event, ...)
 	if ( event == "MAIL_SHOW" ) then
@@ -66,7 +66,7 @@ function MailFrame_OnEvent(self, event, ...)
 			C_GuildInfo.GuildRoster();
 		end
 
-		OpenAllBags(self);
+		-- OpenAllBags(self);
 		SendMailFrame_Update();
 		MailFrameTab_OnClick(nil, 1);
 		CheckInbox();
@@ -74,26 +74,26 @@ function MailFrame_OnEvent(self, event, ...)
 	elseif ( event == "MAIL_INBOX_UPDATE" ) then
 		InboxFrame_Update();
 		OpenMail_Update();
-	elseif ( event == "MAIL_SEND_INFO_UPDATE" ) then
-		SendMailFrame_Update();
-	elseif ( event == "MAIL_SEND_SUCCESS" ) then
-		SendMailFrame_Reset();
-		PlaySound(SOUNDKIT.IG_ABILITY_PAGE_TURN);
-		-- If open mail frame is open then switch the mail frame back to the inbox
-		if ( SendMailFrame.sendMode == "reply" ) then
-			MailFrameTab_OnClick(nil, 1);
-		end
-	elseif ( event == "MAIL_FAILED" ) then
-		SendMailMailButton:Enable();
-	elseif ( event == "MAIL_SUCCESS" ) then
-		SendMailMailButton:Enable();
-		if ( InboxNextPageButton:IsEnabled() ) then
-			InboxGetMoreMail();
-		end
+	-- elseif ( event == "MAIL_SEND_INFO_UPDATE" ) then
+	-- 	SendMailFrame_Update();
+	-- elseif ( event == "MAIL_SEND_SUCCESS" ) then
+	-- 	SendMailFrame_Reset();
+	-- 	PlaySound(SOUNDKIT.IG_ABILITY_PAGE_TURN);
+	-- 	-- If open mail frame is open then switch the mail frame back to the inbox
+	-- 	if ( SendMailFrame.sendMode == "reply" ) then
+	-- 		MailFrameTab_OnClick(nil, 1);
+	-- 	end
+	-- elseif ( event == "MAIL_FAILED" ) then
+	-- 	SendMailMailButton:Enable();
+	-- elseif ( event == "MAIL_SUCCESS" ) then
+	-- 	SendMailMailButton:Enable();
+	-- 	if ( InboxNextPageButton:IsEnabled() ) then
+	-- 		InboxGetMoreMail();
+	-- 	end
 	elseif ( event == "MAIL_CLOSED" ) then
 		CancelEmote();
 		HideUIPanel(MailFrame);
-		CloseAllBags(self);
+		-- CloseAllBags(self);
 		SendMailFrameLockSendMail:Hide();
 		StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE");
 	elseif ( event == "CLOSE_INBOX_ITEM" ) then
@@ -101,17 +101,17 @@ function MailFrame_OnEvent(self, event, ...)
 		if ( mailID == InboxFrame.openMailID ) then
 			HideUIPanel(OpenMailFrame);
 		end
-	elseif ( event == "MAIL_LOCK_SEND_ITEMS" ) then
-		local slotNum, itemLink = ...;
-		SendMailFrameLockSendMail:Show();
-		local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemLink);
-		local r, g, b = GetItemQualityColor(itemRarity)
-		StaticPopup_Show("CONFIRM_MAIL_ITEM_UNREFUNDABLE", nil, nil, {["texture"] = itemTexture, ["name"] = itemName, ["color"] = {r, g, b, 1}, ["link"] = itemLink, ["slot"] = slotNum});
-	elseif ( event == "MAIL_UNLOCK_SEND_ITEMS") then
-		SendMailFrameLockSendMail:Hide();
-		StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE");
-	elseif ( event == "TRIAL_STATUS_UPDATE" ) then
-		MailFrame_UpdateTrialState(self);
+	-- elseif ( event == "MAIL_LOCK_SEND_ITEMS" ) then
+	-- 	local slotNum, itemLink = ...;
+	-- 	SendMailFrameLockSendMail:Show();
+	-- 	local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(itemLink);
+	-- 	local r, g, b = GetItemQualityColor(itemRarity)
+	-- 	StaticPopup_Show("CONFIRM_MAIL_ITEM_UNREFUNDABLE", nil, nil, {["texture"] = itemTexture, ["name"] = itemName, ["color"] = {r, g, b, 1}, ["link"] = itemLink, ["slot"] = slotNum});
+	-- elseif ( event == "MAIL_UNLOCK_SEND_ITEMS") then
+	-- 	SendMailFrameLockSendMail:Hide();
+	-- 	StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE");
+	-- elseif ( event == "TRIAL_STATUS_UPDATE" ) then
+	-- 	MailFrame_UpdateTrialState(self);
 	end
 end
 
@@ -137,8 +137,8 @@ function MailFrameTab_OnClick(self, tabID)
 		ButtonFrameTemplate_HideButtonBar(MailFrame)
 		MailFrameInset:SetPoint("TOPLEFT", 4, -58);
 		InboxFrame:Show();
-		SendMailFrame:Hide();
-		SetSendMailShowing(false);
+		-- SendMailFrame:Hide();
+		-- SetSendMailShowing(false);
 	else
 		-- Sendmail tab clicked
 		-- ButtonFrameTemplate_ShowButtonBar(MailFrame)
@@ -308,7 +308,7 @@ end
 function InboxFrame_OnModifiedClick(self, index)
 	local _, _, _, _, _, cod = GetInboxHeaderInfo(index);
 	if ( cod <= 0 ) then
-		AutoLootMailItem(index);
+		-- AutoLootMailItem(index);
 	end
 	InboxFrame_OnClick(self, index);
 end
@@ -371,7 +371,7 @@ end
 -- Open Mail functions
 
 function OpenMailFrame_OnHide()
-	StaticPopup_Hide("DELETE_MAIL");
+	-- StaticPopup_Hide("DELETE_MAIL");
 	if ( not InboxFrame.openMailID ) then
 		InboxFrame_Update();
 		PlaySound(SOUNDKIT.IG_SPELLBOOK_CLOSE);
@@ -484,11 +484,11 @@ function OpenMail_Update()
 		return;
 	end
 	if ( CanComplainInboxItem(InboxFrame.openMailID) ) then
-		OpenMailReportSpamButton:Enable();
-		OpenMailReportSpamButton:Show();
+		-- OpenMailReportSpamButton:Enable();
+		-- OpenMailReportSpamButton:Show();
 		OpenMailSender:SetPoint("BOTTOMRIGHT", OpenMailReportSpamButton, "BOTTOMLEFT" , -5, 0);
 	else
-		OpenMailReportSpamButton:Hide();
+		-- OpenMailReportSpamButton:Hide();
 		OpenMailSender:SetPoint("BOTTOMRIGHT", OpenMailFrame, "TOPRIGHT" , -12, -54);
 	end
 
@@ -498,7 +498,7 @@ function OpenMail_Update()
 	if ( not sender or not canReply or sender == UnitName("player") ) then
 		OpenMailReplyButton:Disable();
 	else
-		OpenMailReplyButton:Enable();
+		-- OpenMailReplyButton:Enable();
 	end
 	if ( not sender ) then
 		sender = UNKNOWN;
@@ -731,11 +731,11 @@ function OpenMail_Update()
 		OpenMailFrame.cod = nil;
 	end
 	-- Set button to delete or return to sender
-	if ( InboxItemCanDelete(InboxFrame.openMailID) ) then
-		OpenMailDeleteButton:SetText(DELETE);
-	else
-		OpenMailDeleteButton:SetText(MAIL_RETURN);
-	end
+	-- if ( InboxItemCanDelete(InboxFrame.openMailID) ) then
+	-- 	OpenMailDeleteButton:SetText(DELETE);
+	-- else
+	-- 	OpenMailDeleteButton:SetText(MAIL_RETURN);
+	-- end
 end
 
 function OpenMail_GetItemCounts(letterIsTakeable, textCreated, money)
@@ -767,47 +767,47 @@ function OpenMail_GetItemCounts(letterIsTakeable, textCreated, money)
 	return itemButtonCount, numRows;
 end
 
-function OpenMail_Reply()
-	MailFrameTab_OnClick(nil, 2);
-	SendMailNameEditBox:SetText(OpenMailSender.Name:GetText())
-	local subject = OpenMailSubject:GetText();
-	local prefix = MAIL_REPLY_PREFIX.." ";
-	if ( strsub(subject, 1, strlen(prefix)) ~= prefix ) then
-		subject = prefix..subject;
-	end
-	SendMailSubjectEditBox:SetText(subject)
-	MailEditBox:GetEditBox():SetFocus();
+-- function OpenMail_Reply()
+-- 	MailFrameTab_OnClick(nil, 2);
+-- 	SendMailNameEditBox:SetText(OpenMailSender.Name:GetText())
+-- 	local subject = OpenMailSubject:GetText();
+-- 	local prefix = MAIL_REPLY_PREFIX.." ";
+-- 	if ( strsub(subject, 1, strlen(prefix)) ~= prefix ) then
+-- 		subject = prefix..subject;
+-- 	end
+-- 	SendMailSubjectEditBox:SetText(subject)
+-- 	MailEditBox:GetEditBox():SetFocus();
 
-	-- Set the send mode so the work flow can change accordingly
-	SendMailFrame.sendMode = "reply";
-end
+-- 	-- Set the send mode so the work flow can change accordingly
+-- 	SendMailFrame.sendMode = "reply";
+-- end
 
-function OpenMail_Delete()
-	if ( InboxItemCanDelete(InboxFrame.openMailID) ) then
-		if ( OpenMailFrame.itemName ) then
-			StaticPopup_Show("DELETE_MAIL", OpenMailFrame.itemName);
-			return;
-		elseif ( OpenMailFrame.money ) then
-			StaticPopup_Show("DELETE_MONEY");
-			return;
-		else
-			DeleteInboxItem(InboxFrame.openMailID);
-		end
-	else
-		ReturnInboxItem(InboxFrame.openMailID);
-		StaticPopup_Hide("COD_CONFIRMATION");
-	end
-	InboxFrame.openMailID = nil;
-	HideUIPanel(OpenMailFrame);
-end
+-- function OpenMail_Delete()
+-- 	if ( InboxItemCanDelete(InboxFrame.openMailID) ) then
+-- 		if ( OpenMailFrame.itemName ) then
+-- 			StaticPopup_Show("DELETE_MAIL", OpenMailFrame.itemName);
+-- 			return;
+-- 		elseif ( OpenMailFrame.money ) then
+-- 			StaticPopup_Show("DELETE_MONEY");
+-- 			return;
+-- 		else
+-- 			DeleteInboxItem(InboxFrame.openMailID);
+-- 		end
+-- 	else
+-- 		ReturnInboxItem(InboxFrame.openMailID);
+-- 		StaticPopup_Hide("COD_CONFIRMATION");
+-- 	end
+-- 	InboxFrame.openMailID = nil;
+-- 	HideUIPanel(OpenMailFrame);
+-- end
 
-function OpenMail_ReportSpam()
-	local reportInfo = ReportInfo:CreateMailReportInfo(Enum.ReportType.Mail, InboxFrame.openMailID);
-	if(reportInfo) then 
-		ReportFrame:InitiateReport(reportInfo, InboxFrame.openMailSender); 
-	end		
-	OpenMailReportSpamButton:Disable();
-end
+-- function OpenMail_ReportSpam()
+-- 	local reportInfo = ReportInfo:CreateMailReportInfo(Enum.ReportType.Mail, InboxFrame.openMailID);
+-- 	if(reportInfo) then 
+-- 		ReportFrame:InitiateReport(reportInfo, InboxFrame.openMailSender); 
+-- 	end		
+-- 	OpenMailReportSpamButton:Disable();
+-- end
 
 
 function OpenMailAttachment_OnEnter(self, index)
@@ -836,7 +836,7 @@ function OpenMailAttachment_OnClick(self, index)
 		StaticPopup_Show("COD_CONFIRMATION");
 		OpenMailFrame.updateButtonPositions = false;
 	else
-		TakeInboxItem(InboxFrame.openMailID, index);
+		-- TakeInboxItem(InboxFrame.openMailID, index);
 		OpenMailFrame.updateButtonPositions = false;
 	end
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
@@ -1102,156 +1102,156 @@ end
 ---------------------------------------- Open All Mail ----------------------------------------
 -----------------------------------------------------------------------------------------------
 
-local OPEN_ALL_MAIL_MIN_DELAY = 0.15;
+-- local OPEN_ALL_MAIL_MIN_DELAY = 0.15;
 
-OpenAllMailMixin = {};
+-- OpenAllMailMixin = {};
 
-function OpenAllMailMixin:Reset()
-	self.mailIndex = 1;
-	self.attachmentIndex = ATTACHMENTS_MAX;
-	self.timeUntilNextRetrieval = nil;
-	self.blacklistedItemIDs = nil;
-end
+-- function OpenAllMailMixin:Reset()
+-- 	self.mailIndex = 1;
+-- 	self.attachmentIndex = ATTACHMENTS_MAX;
+-- 	self.timeUntilNextRetrieval = nil;
+-- 	self.blacklistedItemIDs = nil;
+-- end
 
-function OpenAllMailMixin:StartOpening()
-	self:Reset();
-	self:Disable();
-	self:SetText(OPEN_ALL_MAIL_BUTTON_OPENING);
-	self:RegisterEvent("MAIL_INBOX_UPDATE");
-	self:RegisterEvent("MAIL_FAILED");
-	self.numToOpen = GetInboxNumItems();
-	self:AdvanceAndProcessNextItem();
-end
+-- function OpenAllMailMixin:StartOpening()
+-- 	self:Reset();
+-- 	self:Disable();
+-- 	self:SetText(OPEN_ALL_MAIL_BUTTON_OPENING);
+-- 	self:RegisterEvent("MAIL_INBOX_UPDATE");
+-- 	self:RegisterEvent("MAIL_FAILED");
+-- 	self.numToOpen = GetInboxNumItems();
+-- 	self:AdvanceAndProcessNextItem();
+-- end
 
-function OpenAllMailMixin:StopOpening()
-	self:Reset();
-	self:Enable();
-	self:SetText(OPEN_ALL_MAIL_BUTTON);
-	self:UnregisterEvent("MAIL_INBOX_UPDATE");
-	self:UnregisterEvent("MAIL_FAILED");
-end
+-- function OpenAllMailMixin:StopOpening()
+-- 	self:Reset();
+-- 	self:Enable();
+-- 	self:SetText(OPEN_ALL_MAIL_BUTTON);
+-- 	self:UnregisterEvent("MAIL_INBOX_UPDATE");
+-- 	self:UnregisterEvent("MAIL_FAILED");
+-- end
 
-function OpenAllMailMixin:AdvanceToNextItem()
-	local foundAttachment = false;
-	while ( not foundAttachment ) do
-		local _, _, _, _, money, CODAmount, daysLeft, itemCount, _, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
-		local itemID = select(2, GetInboxItem(self.mailIndex, self.attachmentIndex));
-		local hasBlacklistedItem = self:IsItemBlacklisted(itemID);
-		local hasCOD = CODAmount and CODAmount > 0;
-		local hasMoneyOrItem = C_Mail.HasInboxMoney(self.mailIndex) or HasInboxItem(self.mailIndex, self.attachmentIndex);
-		if ( not hasBlacklistedItem and not hasCOD and hasMoneyOrItem ) then
-			foundAttachment = true;
-		else
-			self.attachmentIndex = self.attachmentIndex - 1;
-			if ( self.attachmentIndex == 0 ) then
-				break;
-			end
-		end
-	end
+-- function OpenAllMailMixin:AdvanceToNextItem()
+-- 	local foundAttachment = false;
+-- 	while ( not foundAttachment ) do
+-- 		local _, _, _, _, money, CODAmount, daysLeft, itemCount, _, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
+-- 		local itemID = select(2, GetInboxItem(self.mailIndex, self.attachmentIndex));
+-- 		local hasBlacklistedItem = self:IsItemBlacklisted(itemID);
+-- 		local hasCOD = CODAmount and CODAmount > 0;
+-- 		local hasMoneyOrItem = C_Mail.HasInboxMoney(self.mailIndex) or HasInboxItem(self.mailIndex, self.attachmentIndex);
+-- 		if ( not hasBlacklistedItem and not hasCOD and hasMoneyOrItem ) then
+-- 			foundAttachment = true;
+-- 		else
+-- 			self.attachmentIndex = self.attachmentIndex - 1;
+-- 			if ( self.attachmentIndex == 0 ) then
+-- 				break;
+-- 			end
+-- 		end
+-- 	end
 	
-	if ( not foundAttachment ) then
-		self.mailIndex = self.mailIndex + 1;
-		self.attachmentIndex = ATTACHMENTS_MAX;
-		if ( self.mailIndex > GetInboxNumItems() ) then
-			return false;
-		end
+-- 	if ( not foundAttachment ) then
+-- 		self.mailIndex = self.mailIndex + 1;
+-- 		self.attachmentIndex = ATTACHMENTS_MAX;
+-- 		if ( self.mailIndex > GetInboxNumItems() ) then
+-- 			return false;
+-- 		end
 		
-		return self:AdvanceToNextItem();
-	end
+-- 		return self:AdvanceToNextItem();
+-- 	end
 	
-	return true;
-end
+-- 	return true;
+-- end
 
-function OpenAllMailMixin:AdvanceAndProcessNextItem()
-	if ( CalculateTotalNumberOfFreeBagSlots() == 0 ) then
-		self:StopOpening();
-		return;
-	end
+-- function OpenAllMailMixin:AdvanceAndProcessNextItem()
+-- 	if ( CalculateTotalNumberOfFreeBagSlots() == 0 ) then
+-- 		self:StopOpening();
+-- 		return;
+-- 	end
 	
-	if ( self:AdvanceToNextItem() ) then
-		self:ProcessNextItem();
-	else
-		self:StopOpening();
-	end
-end
+-- 	if ( self:AdvanceToNextItem() ) then
+-- 		self:ProcessNextItem();
+-- 	else
+-- 		self:StopOpening();
+-- 	end
+-- end
 
-function OpenAllMailMixin:ProcessNextItem()
-	local _, _, _, _, money, CODAmount, daysLeft, itemCount, _, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
-	if ( isGM or (CODAmount and CODAmount > 0) ) then
-		self:AdvanceAndProcessNextItem();
-		return;
-	end
+-- function OpenAllMailMixin:ProcessNextItem()
+-- 	local _, _, _, _, money, CODAmount, daysLeft, itemCount, _, _, _, _, isGM = GetInboxHeaderInfo(self.mailIndex);
+-- 	if ( isGM or (CODAmount and CODAmount > 0) ) then
+-- 		self:AdvanceAndProcessNextItem();
+-- 		return;
+-- 	end
 	
-	if ( money > 0 ) then
-		TakeInboxMoney(self.mailIndex);
-		self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
-	elseif ( itemCount and itemCount > 0 ) then
-		TakeInboxItem(self.mailIndex, self.attachmentIndex);
-		self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
-	else
-		self:AdvanceAndProcessNextItem();
-	end
-end
+-- 	if ( money > 0 ) then
+-- 		TakeInboxMoney(self.mailIndex);
+-- 		self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
+-- 	elseif ( itemCount and itemCount > 0 ) then
+-- 		TakeInboxItem(self.mailIndex, self.attachmentIndex);
+-- 		self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
+-- 	else
+-- 		self:AdvanceAndProcessNextItem();
+-- 	end
+-- end
 
-function OpenAllMailMixin:OnLoad()
-	self:Reset();
-end
+-- function OpenAllMailMixin:OnLoad()
+-- 	self:Reset();
+-- end
 
-function OpenAllMailMixin:OnEvent(event, ...)
-	if event == "MAIL_INBOX_UPDATE" then
-		if ( self.numToOpen ~= GetInboxNumItems() ) then
-			self.mailIndex = 1;
-			self.attachmentIndex = ATTACHMENTS_MAX;
-		end
-	elseif ( event == "MAIL_FAILED" ) then
-		local itemID = ...;
-		if ( itemID ) then
-			self:AddBlacklistedItem(itemID);
-		end
-	end
-end
+-- function OpenAllMailMixin:OnEvent(event, ...)
+-- 	if event == "MAIL_INBOX_UPDATE" then
+-- 		if ( self.numToOpen ~= GetInboxNumItems() ) then
+-- 			self.mailIndex = 1;
+-- 			self.attachmentIndex = ATTACHMENTS_MAX;
+-- 		end
+-- 	elseif ( event == "MAIL_FAILED" ) then
+-- 		local itemID = ...;
+-- 		if ( itemID ) then
+-- 			self:AddBlacklistedItem(itemID);
+-- 		end
+-- 	end
+-- end
 
-function OpenAllMailMixin:OnUpdate(dt)
-	if ( self.timeUntilNextRetrieval ) then
-		self.timeUntilNextRetrieval = self.timeUntilNextRetrieval - dt;
+-- function OpenAllMailMixin:OnUpdate(dt)
+-- 	if ( self.timeUntilNextRetrieval ) then
+-- 		self.timeUntilNextRetrieval = self.timeUntilNextRetrieval - dt;
 		
-		if ( self.timeUntilNextRetrieval <= 0 ) then
-			if ( not C_Mail.IsCommandPending() ) then
-				self.timeUntilNextRetrieval = nil;
-				self:AdvanceAndProcessNextItem();
-			else
-				-- Delay until the current mail command is done processing.
-				self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
-			end
-		end
-	end
-end
+-- 		if ( self.timeUntilNextRetrieval <= 0 ) then
+-- 			if ( not C_Mail.IsCommandPending() ) then
+-- 				self.timeUntilNextRetrieval = nil;
+-- 				self:AdvanceAndProcessNextItem();
+-- 			else
+-- 				-- Delay until the current mail command is done processing.
+-- 				self.timeUntilNextRetrieval = OPEN_ALL_MAIL_MIN_DELAY;
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-function OpenAllMailMixin:OnClick()
-	self:StartOpening();
-end
+-- function OpenAllMailMixin:OnClick()
+-- 	self:StartOpening();
+-- end
 
-function OpenAllMailMixin:OnHide()
-	self:StopOpening();
-end
+-- function OpenAllMailMixin:OnHide()
+-- 	self:StopOpening();
+-- end
 
-function OpenAllMailMixin:AddBlacklistedItem(itemID)
-	if ( not self.blacklistedItemIDs ) then
-		self.blacklistedItemIDs = {};
-	end
+-- function OpenAllMailMixin:AddBlacklistedItem(itemID)
+-- 	if ( not self.blacklistedItemIDs ) then
+-- 		self.blacklistedItemIDs = {};
+-- 	end
 	
-	self.blacklistedItemIDs[itemID] = true;
-end
+-- 	self.blacklistedItemIDs[itemID] = true;
+-- end
 
-function OpenAllMailMixin:IsItemBlacklisted(itemID)
-	return self.blacklistedItemIDs and self.blacklistedItemIDs[itemID];
-end
+-- function OpenAllMailMixin:IsItemBlacklisted(itemID)
+-- 	return self.blacklistedItemIDs and self.blacklistedItemIDs[itemID];
+-- end
 
-function SendMailEditBox_OnLoad()
-	ScrollUtil.RegisterScrollBoxWithScrollBar(MailEditBox.ScrollBox, MailEditBoxScrollBar);
-	MailEditBox:RegisterCallback("OnTabPressed", SendMailEditBox_OnTabPressed, MailEditBox);
-end
+-- function SendMailEditBox_OnLoad()
+-- 	ScrollUtil.RegisterScrollBoxWithScrollBar(MailEditBox.ScrollBox, MailEditBoxScrollBar);
+-- 	MailEditBox:RegisterCallback("OnTabPressed", SendMailEditBox_OnTabPressed, MailEditBox);
+-- end
 
-function SendMailEditBox_OnTabPressed(self)
-	EditBox_HandleTabbing(self, SEND_MAIL_TAB_LIST);
-end
+-- function SendMailEditBox_OnTabPressed(self)
+-- 	EditBox_HandleTabbing(self, SEND_MAIL_TAB_LIST);
+-- end

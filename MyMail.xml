@@ -433,7 +433,7 @@
 						<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
 						<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 					</Button>
-					<Button name="OpenAllMail" text="OPEN_ALL_MAIL_BUTTON" inherits="UIPanelButtonTemplate" mixin="OpenAllMailMixin">
+					<!-- <Button name="OpenAllMail" text="OPEN_ALL_MAIL_BUTTON" inherits="UIPanelButtonTemplate" mixin="OpenAllMailMixin">
 						<Size x="120" y="24"/>
 						<Anchors>
 							<Anchor point="CENTER" relativePoint="BOTTOM" x="-21" y="114"/>
@@ -445,7 +445,7 @@
 							<OnUpdate method="OnUpdate"/>
 							<OnHide method="OnHide"/>
 						</Scripts>
-					</Button>
+					</Button> -->
 				</Frames>
 			</Frame>
 <!-- Send Mail -->
@@ -476,11 +476,11 @@
 			<OnHide>
 				CloseMail();
 				HideUIPanel(OpenMailFrame);
-				MailEditBox:SetText("");
-				SendMailNameEditBox:SetText("");
-				SendMailSubjectEditBox:SetText("");
+				<!-- MailEditBox:SetText(""); -->
+				<!-- SendMailNameEditBox:SetText(""); -->
+				<!-- SendMailSubjectEditBox:SetText(""); -->
 				PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
-				SetSendMailShowing(false);
+				<!-- SetSendMailShowing(false); -->
 			</OnHide>
 			<OnMouseWheel function="MailFrame_OnMouseWheel"/>
 		</Scripts>
@@ -544,7 +544,7 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Button name="OpenMailReportSpamButton" inherits="UIPanelButtonTemplate" text="REPORT_SPAM">
+			<!-- <Button name="OpenMailReportSpamButton" inherits="UIPanelButtonTemplate" text="REPORT_SPAM">
 				<Size x="110" y="22"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="OpenMailFrame" x="-12" y="-32"/>
@@ -552,7 +552,7 @@
 				<Scripts>
 					<OnClick function="OpenMail_ReportSpam"/>
 				</Scripts>
-			</Button>
+			</Button> -->
 			<Frame name="OpenMailSender">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="OpenMailSenderLabel" relativePoint="TOPRIGHT" x="5" y="0"/>
@@ -882,7 +882,7 @@
 					<OnClick function="HideParentPanel"/>
 				</Scripts>
 			</Button>
-			<Button name="OpenMailDeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+			<!-- <Button name="OpenMailDeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
 				<Size x="82" y="22"/>
 				<Anchors>
 					<Anchor point="RIGHT" relativeTo="OpenMailCancelButton" relativePoint="LEFT" x="0" y="0"/>
@@ -899,7 +899,7 @@
 				<Scripts>
 					<OnClick function="OpenMail_Reply"/>
 				</Scripts>
-			</Button>
+			</Button> -->
 		</Frames>
 		<Scripts>
 			<OnShow>
