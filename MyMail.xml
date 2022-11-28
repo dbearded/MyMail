@@ -459,7 +459,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="MailFrameTab2" inherits="FriendsFrameTabTemplate" id="2" text="SENDMAIL">
+			<!-- <Button name="MailFrameTab2" inherits="FriendsFrameTabTemplate" id="2" text="SENDMAIL">
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="MailFrameTab1" relativePoint="RIGHT" x="-8" y="0"/>
 				</Anchors>
@@ -468,7 +468,7 @@
 						MailFrameTab_OnClick(self, 2);
 					</OnClick>
 				</Scripts>
-			</Button>
+			</Button> -->
 		</Frames>
 		<Scripts>
 			<OnLoad function="MailFrame_OnLoad"/>
