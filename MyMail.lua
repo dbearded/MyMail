@@ -141,15 +141,15 @@ function MailFrameTab_OnClick(self, tabID)
 		SetSendMailShowing(false);
 	else
 		-- Sendmail tab clicked
-		ButtonFrameTemplate_ShowButtonBar(MailFrame)
-		MailFrameInset:SetPoint("TOPLEFT", 4, -80);
-		InboxFrame:Hide();
-		SendMailFrame:Show();
-		SendMailFrame_Update();
-		SetSendMailShowing(true);
+		-- ButtonFrameTemplate_ShowButtonBar(MailFrame)
+		-- MailFrameInset:SetPoint("TOPLEFT", 4, -80);
+		-- InboxFrame:Hide();
+		-- SendMailFrame:Show();
+		-- SendMailFrame_Update();
+		-- SetSendMailShowing(true);
 
 		-- Set the send mode to dictate the flow after a mail is sent
-		SendMailFrame.sendMode = "send";
+		-- SendMailFrame.sendMode = "send";
 	end
 	PlaySound(SOUNDKIT.IG_SPELLBOOK_OPEN);
 end
