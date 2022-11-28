@@ -134,24 +134,24 @@
 					</OnLoad>
 					<OnEvent>
 						if (GetMouseFocus() == self) then
-							InboxFrame_Update();
-							InboxFrameItem_OnEnter(self);
+							MyInboxFrame_Update();
+							MyInboxFrameItem_OnEnter(self);
 						end
 					</OnEvent>
 					<OnClick>
 						local modifiedClick = IsModifiedClick("MAILAUTOLOOTTOGGLE");
 						if ( modifiedClick ) then
-							InboxFrame_OnModifiedClick(self, self.index);
+							MyInboxFrame_OnModifiedClick(self, self.index);
 						else
-							InboxFrame_OnClick(self, self.index);
+							MyInboxFrame_OnClick(self, self.index);
 						end
 					</OnClick>
 					<OnEnter>
-						InboxFrameItem_OnEnter(self, motion);
+						MyInboxFrameItem_OnEnter(self, motion);
 					</OnEnter>
 					<OnUpdate>
 						if ( GameTooltip:IsOwned(self) ) then
-							InboxFrameItem_OnEnter(self);
+							MyInboxFrameItem_OnEnter(self);
 						end
 					</OnUpdate>
 					<OnLeave>
@@ -233,7 +233,7 @@
 			<OnEvent>
 				--GameTooltip:Hide();
 				if ( GameTooltip:IsOwned(self) ) then
-					local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetInboxItem(InboxFrame.openMailID, self:GetID());
+					local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetInboxItem(MyInboxFrame.openMailID, self:GetID());
 					if(speciesID and speciesID > 0) then
 						BattlePetToolTip_Show(speciesID, level, breedQuality, maxHealth, power, speed, name);
 					end
@@ -242,7 +242,7 @@
 			</OnEvent>
 			<OnClick>
 				if ( IsModifiedClick() ) then
-					HandleModifiedItemClick(GetInboxItemLink(InboxFrame.openMailID, self:GetID()));
+					HandleModifiedItemClick(GetInboxItemLink(MyInboxFrame.openMailID, self:GetID()));
 				else
 					OpenMailAttachment_OnClick(self, self:GetID());
 				end
@@ -284,14 +284,14 @@
 		</Layers>
 		<Frames>
 <!-- Inbox -->
-			<Frame name="InboxFrame">
+			<Frame name="MyInboxFrame">
 				<Size x="384" y="512"/>
 				<Anchors>
 					<Anchor point="TOPLEFT"/>
 				</Anchors>
 				<Layers>
 					<Layer level="BACKGROUND">
-						<Texture name="InboxFrameBg" file="Interface\MailFrame\UI-MailFrameBG">
+						<Texture name="MyInboxFrameBg" file="Interface\MailFrame\UI-MailFrameBG">
 							<Size x="512" y="512"/>
 							<Anchors>
 								<Anchor point="TOPLEFT" x="7" y="-62"/>
@@ -488,7 +488,7 @@
 <!-- Open Mail -->
 	<Frame name="OpenMailFrame" toplevel="true" hidden="true" parent="UIParent" enableMouse="true" inherits="ButtonFrameTemplate">
 		<Anchors>
-			<Anchor point="TOPLEFT" relativeTo="InboxFrame" relativePoint="TOPRIGHT"/>
+			<Anchor point="TOPLEFT" relativeTo="MyInboxFrame" relativePoint="TOPRIGHT"/>
 		</Anchors>
 		<Layers>
 			<Layer level="OVERLAY" textureSubLevel="-1">
@@ -815,7 +815,7 @@
 					</OnLoad>
 					<OnClick>
 						OpenMailFrame.updateButtonPositions = false;
-						TakeInboxTextItem(InboxFrame.openMailID);
+						TakeInboxTextItem(MyInboxFrame.openMailID);
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 					</OnClick>
 					<OnEnter>
@@ -860,7 +860,7 @@
 					</OnEvent>
 					<OnClick>
 						OpenMailFrame.updateButtonPositions = false;
-						TakeInboxMoney(InboxFrame.openMailID);
+						TakeInboxMoney(MyInboxFrame.openMailID);
 					</OnClick>
 					<OnEnter>
 						if ( OpenMailFrame.money ) then

@@ -23,7 +23,7 @@ end
 
 function MailFrame_OnLoad(self)
 	-- Init pagenum
-	InboxFrame.pageNum = 1;
+	MyInboxFrame.pageNum = 1;
 	-- Tab Handling code
 	self.maxTabWidth = self:GetWidth() / 3;
 	PanelTemplates_SetNumTabs(self, 2);
@@ -72,7 +72,7 @@ function MailFrame_OnEvent(self, event, ...)
 		CheckInbox();
 		DoEmote("READ", nil, true);
 	elseif ( event == "MAIL_INBOX_UPDATE" ) then
-		InboxFrame_Update();
+		MyInboxFrame_Update();
 		OpenMail_Update();
 	-- elseif ( event == "MAIL_SEND_INFO_UPDATE" ) then
 	-- 	SendMailFrame_Update();
@@ -98,7 +98,7 @@ function MailFrame_OnEvent(self, event, ...)
 		StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE");
 	elseif ( event == "CLOSE_INBOX_ITEM" ) then
 		local mailID = ...;
-		if ( mailID == InboxFrame.openMailID ) then
+		if ( mailID == MyInboxFrame.openMailID ) then
 			HideUIPanel(OpenMailFrame);
 		end
 	-- elseif ( event == "MAIL_LOCK_SEND_ITEMS" ) then
@@ -136,7 +136,7 @@ function MailFrameTab_OnClick(self, tabID)
 		-- Inbox tab clicked
 		ButtonFrameTemplate_HideButtonBar(MailFrame)
 		MailFrameInset:SetPoint("TOPLEFT", 4, -58);
-		InboxFrame:Show();
+		MyInboxFrame:Show();
 		-- SendMailFrame:Hide();
 		-- SetSendMailShowing(false);
 	else
@@ -156,20 +156,20 @@ end
 
 -- Inbox functions
 
-function InboxFrame_Update()
+function MyInboxFrame_Update()
 	local numItems, totalItems = GetInboxNumItems();
-	local index = ((InboxFrame.pageNum - 1) * INBOXITEMS_TO_DISPLAY) + 1;
+	local index = ((MyInboxFrame.pageNum - 1) * INBOXITEMS_TO_DISPLAY) + 1;
 	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, x, y, z, isGM, firstItemQuantity;
 	local icon, button, expireTime, senderText, subjectText, buttonIcon;
 	
 	if ( totalItems > numItems ) then
-		if ( not InboxFrame.maxShownMails ) then
-			InboxFrame.maxShownMails = numItems;
+		if ( not MyInboxFrame.maxShownMails ) then
+			MyInboxFrame.maxShownMails = numItems;
 		end
-		InboxFrame.overflowMails = totalItems - numItems;
-		InboxFrame.shownMails = numItems;
+		MyInboxFrame.overflowMails = totalItems - numItems;
+		MyInboxFrame.shownMails = numItems;
 	else
-		InboxFrame.overflowMails = nil;
+		MyInboxFrame.overflowMails = nil;
 	end
 	
 	for i=1, INBOXITEMS_TO_DISPLAY do
@@ -254,7 +254,7 @@ function InboxFrame_Update()
 				button.money = nil;
 			end
 			-- Set highlight
-			if ( InboxFrame.openMailID == index ) then
+			if ( MyInboxFrame.openMailID == index ) then
 				button:SetChecked(true);
 				SetPortraitToTexture("OpenMailFrameIcon", stationeryIcon);
 			else
@@ -272,12 +272,12 @@ function InboxFrame_Update()
 	end
 
 	-- Handle page arrows
-	if ( InboxFrame.pageNum == 1 ) then
+	if ( MyInboxFrame.pageNum == 1 ) then
 		InboxPrevPageButton:Disable();
 	else
 		InboxPrevPageButton:Enable();
 	end
-	if ( (InboxFrame.pageNum * INBOXITEMS_TO_DISPLAY) < numItems ) then
+	if ( (MyInboxFrame.pageNum * INBOXITEMS_TO_DISPLAY) < numItems ) then
 		InboxNextPageButton:Enable();
 	else
 		InboxNextPageButton:Disable();
@@ -289,9 +289,9 @@ function InboxFrame_Update()
 	end
 end
 
-function InboxFrame_OnClick(self, index)
+function MyInboxFrame_OnClick(self, index)
 	if ( self:GetChecked() ) then
-		InboxFrame.openMailID = index;
+		MyInboxFrame.openMailID = index;
 		OpenMailFrame.updateButtonPositions = true;
 		OpenMail_Update();
 		--OpenMailFrame:Show();
@@ -299,21 +299,21 @@ function InboxFrame_OnClick(self, index)
 		OpenMailFrameInset:SetPoint("TOPLEFT", 4, -80);
 		PlaySound(SOUNDKIT.IG_SPELLBOOK_OPEN);
 	else
-		InboxFrame.openMailID = 0;
+		MyInboxFrame.openMailID = 0;
 		HideUIPanel(OpenMailFrame);		
 	end
-	InboxFrame_Update();
+	MyInboxFrame_Update();
 end
 
-function InboxFrame_OnModifiedClick(self, index)
+function MyInboxFrame_OnModifiedClick(self, index)
 	local _, _, _, _, _, cod = GetInboxHeaderInfo(index);
 	if ( cod <= 0 ) then
 		-- AutoLootMailItem(index);
 	end
-	InboxFrame_OnClick(self, index);
+	MyInboxFrame_OnClick(self, index);
 end
 
-function InboxFrameItem_OnEnter(self)
+function MyInboxFrameItem_OnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
 	if ( self.hasItem ) then
 		if ( self.itemCount == 1) then
@@ -349,21 +349,21 @@ end
 
 function InboxNextPage()
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-	InboxFrame.pageNum = InboxFrame.pageNum + 1;
+	MyInboxFrame.pageNum = MyInboxFrame.pageNum + 1;
 	InboxGetMoreMail();	
-	InboxFrame_Update();
+	MyInboxFrame_Update();
 end
 
 function InboxPrevPage()
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-	InboxFrame.pageNum = InboxFrame.pageNum - 1;
+	MyInboxFrame.pageNum = MyInboxFrame.pageNum - 1;
 	InboxGetMoreMail();	
-	InboxFrame_Update();
+	MyInboxFrame_Update();
 end
 
 function InboxGetMoreMail()
 	-- get more mails if there is an overflow and less than max are being shown
-	if ( InboxFrame.overflowMails and InboxFrame.shownMails < InboxFrame.maxShownMails ) then
+	if ( MyInboxFrame.overflowMails and MyInboxFrame.shownMails < MyInboxFrame.maxShownMails ) then
 		CheckInbox();
 	end
 end
@@ -372,29 +372,29 @@ end
 
 function OpenMailFrame_OnHide()
 	-- StaticPopup_Hide("DELETE_MAIL");
-	if ( not InboxFrame.openMailID ) then
-		InboxFrame_Update();
+	if ( not MyInboxFrame.openMailID ) then
+		MyInboxFrame_Update();
 		PlaySound(SOUNDKIT.IG_SPELLBOOK_CLOSE);
 		return;
 	end
 
 	-- Determine if this is an auction temp invoice
-	local isInvoice = select(5, GetInboxText(InboxFrame.openMailID));
+	local isInvoice = select(5, GetInboxText(MyInboxFrame.openMailID));
 	local isAuctionTempInvoice = false;
 	if ( isInvoice ) then
-		local invoiceType, itemName, playerName, bid, buyout, deposit, consignment, moneyDelay, etaHour, etaMin = GetInboxInvoiceInfo(InboxFrame.openMailID);
+		local invoiceType, itemName, playerName, bid, buyout, deposit, consignment, moneyDelay, etaHour, etaMin = GetInboxInvoiceInfo(MyInboxFrame.openMailID);
 		if (invoiceType == "seller_temp_invoice") then
 			isAuctionTempInvoice = true;
 		end
 	end
 	
 	-- If mail contains no items, then delete it on close
-	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated  = GetInboxHeaderInfo(InboxFrame.openMailID);
+	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated  = GetInboxHeaderInfo(MyInboxFrame.openMailID);
 	if ( money == 0 and not itemCount and textCreated and not isAuctionTempInvoice ) then
-		DeleteInboxItem(InboxFrame.openMailID);
+		DeleteInboxItem(MyInboxFrame.openMailID);
 	end
-	InboxFrame.openMailID = 0;
-	InboxFrame_Update();
+	MyInboxFrame.openMailID = 0;
+	MyInboxFrame_Update();
 	PlaySound(SOUNDKIT.IG_SPELLBOOK_CLOSE);
 end
 
@@ -435,11 +435,11 @@ function OpenMailFrame_UpdateButtonPositions(letterIsTakeable, textCreated, stat
 	-- items
 	for i=1, ATTACHMENTS_MAX_RECEIVE do
 		local attachmentButton = OpenMailFrame.OpenMailAttachments[i];
-		if HasInboxItem(InboxFrame.openMailID, i) then
+		if HasInboxItem(MyInboxFrame.openMailID, i) then
 			tinsert(OpenMailFrame.activeAttachmentButtons, attachmentButton);
 			rowAttachmentCount = rowAttachmentCount + 1;
 
-			local name, itemID, itemTexture, count, quality, canUse = GetInboxItem(InboxFrame.openMailID, i);
+			local name, itemID, itemTexture, count, quality, canUse = GetInboxItem(MyInboxFrame.openMailID, i);
 			if name then
 				attachmentButton.name = name;
 				SetItemButtonTexture(attachmentButton, itemTexture);
@@ -480,10 +480,10 @@ function OpenMailFrame_UpdateButtonPositions(letterIsTakeable, textCreated, stat
 end
 
 function OpenMail_Update()
-	if ( not InboxFrame.openMailID ) then
+	if ( not MyInboxFrame.openMailID ) then
 		return;
 	end
-	if ( CanComplainInboxItem(InboxFrame.openMailID) ) then
+	if ( CanComplainInboxItem(MyInboxFrame.openMailID) ) then
 		-- OpenMailReportSpamButton:Enable();
 		-- OpenMailReportSpamButton:Show();
 		OpenMailSender:SetPoint("BOTTOMRIGHT", OpenMailReportSpamButton, "BOTTOMLEFT" , -5, 0);
@@ -493,7 +493,7 @@ function OpenMail_Update()
 	end
 
 	-- Setup mail item
-	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated, canReply = GetInboxHeaderInfo(InboxFrame.openMailID);
+	local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, wasReturned, textCreated, canReply = GetInboxHeaderInfo(MyInboxFrame.openMailID);
 	-- Set sender and subject
 	if ( not sender or not canReply or sender == UnitName("player") ) then
 		OpenMailReplyButton:Disable();
@@ -504,11 +504,11 @@ function OpenMail_Update()
 		sender = UNKNOWN;
 	end
 	-- Save sender name to pass to a potential spam report
-	InboxFrame.openMailSender = sender;
+	MyInboxFrame.openMailSender = sender;
 	OpenMailSender.Name:SetText(sender);
 	OpenMailSubject:SetText(subject);
 	-- Set Text
-	local bodyText, stationeryID1, stationeryID2, isTakeable, isInvoice = GetInboxText(InboxFrame.openMailID);
+	local bodyText, stationeryID1, stationeryID2, isTakeable, isInvoice = GetInboxText(MyInboxFrame.openMailID);
 	OpenMailBodyText:SetText(bodyText, true);
 	if ( stationeryID1 and stationeryID2 ) then
 		OpenStationeryBackgroundLeft:SetTexture(stationeryID1);
@@ -517,7 +517,7 @@ function OpenMail_Update()
 
 	-- Is an invoice
 	if ( isInvoice ) then
-		local invoiceType, itemName, playerName, bid, buyout, deposit, consignment, moneyDelay, etaHour, etaMin, count, commerceAuction = GetInboxInvoiceInfo(InboxFrame.openMailID);
+		local invoiceType, itemName, playerName, bid, buyout, deposit, consignment, moneyDelay, etaHour, etaMin, count, commerceAuction = GetInboxInvoiceInfo(MyInboxFrame.openMailID);
 		if ( playerName ) then
 			-- Setup based on whether player is the buyer or the seller
 			local buyMode;
@@ -693,7 +693,7 @@ function OpenMail_Update()
 		for i, attachmentButton in ipairs(OpenMailFrame.activeAttachmentButtons) do
 			attachmentButton:SetPoint("TOPLEFT", OpenMailFrame, "BOTTOMLEFT", indentx + (tabx * cursorx), indenty + icony + (taby * cursory));
 			if attachmentButton ~= OpenMailLetterButton and attachmentButton ~= OpenMailMoneyButton then
-				if cursory >= 0 and HasInboxItem(InboxFrame.openMailID, attachmentButton:GetID()) then
+				if cursory >= 0 and HasInboxItem(MyInboxFrame.openMailID, attachmentButton:GetID()) then
 					if attachmentButton.name then
 						if not firstAttachName then
 							firstAttachName = attachmentButton.name;
@@ -751,7 +751,7 @@ function OpenMail_GetItemCounts(letterIsTakeable, textCreated, money)
 		itemRowCount = itemRowCount + 1;
 	end
 	for i=1, ATTACHMENTS_MAX_RECEIVE do
-		if HasInboxItem(InboxFrame.openMailID, i) then
+		if HasInboxItem(MyInboxFrame.openMailID, i) then
 			itemButtonCount = itemButtonCount + 1;
 			itemRowCount = itemRowCount + 1;
 		end
@@ -812,7 +812,7 @@ end
 
 function OpenMailAttachment_OnEnter(self, index)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetInboxItem(InboxFrame.openMailID, index);
+	local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetInboxItem(MyInboxFrame.openMailID, index);
 	if(speciesID and speciesID > 0) then
 		BattlePetToolTip_Show(speciesID, level, breedQuality, maxHealth, power, speed, name);
 	end
