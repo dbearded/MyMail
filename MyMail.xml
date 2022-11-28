@@ -383,7 +383,7 @@
 							<Anchor point="TOPLEFT" relativeTo="MyMailItem6" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Button name="InboxPrevPageButton">
+					<Button name="MyInboxPrevPageButton">
 						<Size x="32" y="32"/>
 						<Anchors>
 							<Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="30" y="114"/>
@@ -401,14 +401,14 @@
 							<OnLoad>
 								self:Disable();
 							</OnLoad>
-							<OnClick function="InboxPrevPage"/>
+							<OnClick function="MyInboxPrevPage"/>
 						</Scripts>
 						<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
 						<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
 						<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
 						<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 					</Button>
-					<Button name="InboxNextPageButton">
+					<Button name="MyInboxNextPageButton">
 						<Size x="32" y="32"/>
 						<Anchors>
 							<Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="305" y="114"/>
@@ -426,7 +426,7 @@
 							<OnLoad>
 								self:Disable();
 							</OnLoad>
-							<OnClick function="InboxNextPage"/>
+							<OnClick function="MyInboxNextPage"/>
 						</Scripts>
 						<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
 						<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>

@@ -117,12 +117,12 @@ end
 
 function MailFrame_OnMouseWheel(self, value)
 	if ( value > 0 ) then
-		if ( InboxPrevPageButton:IsEnabled() ) then
-			InboxPrevPage();
+		if ( MyInboxPrevPageButton:IsEnabled() ) then
+			MyInboxPrevPage();
 		end
 	else
-		if ( InboxNextPageButton:IsEnabled() ) then
-			InboxNextPage();
+		if ( MyInboxNextPageButton:IsEnabled() ) then
+			MyInboxNextPage();
 		end	
 	end
 end
@@ -273,14 +273,14 @@ function MyInboxFrame_Update()
 
 	-- Handle page arrows
 	if ( MyInboxFrame.pageNum == 1 ) then
-		InboxPrevPageButton:Disable();
+		MyInboxPrevPageButton:Disable();
 	else
-		InboxPrevPageButton:Enable();
+		MyInboxPrevPageButton:Enable();
 	end
 	if ( (MyInboxFrame.pageNum * INBOXITEMS_TO_DISPLAY) < numItems ) then
-		InboxNextPageButton:Enable();
+		MyInboxNextPageButton:Enable();
 	else
-		InboxNextPageButton:Disable();
+		MyInboxNextPageButton:Disable();
 	end
 	if ( totalItems > numItems) then
 		InboxTooMuchMail:Show();
@@ -347,14 +347,14 @@ function MyInboxFrameItem_OnEnter(self)
 	GameTooltip:Show();
 end
 
-function InboxNextPage()
+function MyInboxNextPage()
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 	MyInboxFrame.pageNum = MyInboxFrame.pageNum + 1;
 	InboxGetMoreMail();	
 	MyInboxFrame_Update();
 end
 
-function InboxPrevPage()
+function MyInboxPrevPage()
 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 	MyInboxFrame.pageNum = MyInboxFrame.pageNum - 1;
 	InboxGetMoreMail();	
