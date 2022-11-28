@@ -844,259 +844,259 @@ end
 
 -- SendMail functions
 
-function SendMailMailButton_OnClick(self)
-	self:Disable();
-	local copper = MoneyInputFrame_GetCopper(SendMailMoney);
-	SetSendMailCOD(0);
-	SetSendMailMoney(0);
-	if ( SendMailSendMoneyButton:GetChecked() ) then
-		-- Send Money
-		if ( copper > 0 ) then
-			-- Confirmation is now done through the secure transfer system
-			SetSendMailMoney(copper)
-		end
-	else
-		-- Send C.O.D.
-		if ( copper > 0 ) then
-			SetSendMailCOD(copper);
-		end
-	end
-	SendMailFrame_SendMail();
-end
+-- function SendMailMailButton_OnClick(self)
+-- 	self:Disable();
+-- 	local copper = MoneyInputFrame_GetCopper(SendMailMoney);
+-- 	SetSendMailCOD(0);
+-- 	SetSendMailMoney(0);
+-- 	if ( SendMailSendMoneyButton:GetChecked() ) then
+-- 		-- Send Money
+-- 		if ( copper > 0 ) then
+-- 			-- Confirmation is now done through the secure transfer system
+-- 			SetSendMailMoney(copper)
+-- 		end
+-- 	else
+-- 		-- Send C.O.D.
+-- 		if ( copper > 0 ) then
+-- 			SetSendMailCOD(copper);
+-- 		end
+-- 	end
+-- 	SendMailFrame_SendMail();
+-- end
 
-function SendMailFrame_SendMail()
-	SendMail(SendMailNameEditBox:GetText(), SendMailSubjectEditBox:GetText(), MailEditBox:GetInputText());
-end
+-- function SendMailFrame_SendMail()
+-- 	SendMail(SendMailNameEditBox:GetText(), SendMailSubjectEditBox:GetText(), MailEditBox:GetInputText());
+-- end
 
-function SendMailFrame_EnableSendMailButton()
-	SendMailMailButton:Enable();
-end
+-- function SendMailFrame_EnableSendMailButton()
+-- 	SendMailMailButton:Enable();
+-- end
 
-function SendMailFrame_Update()
-	-- Update the item(s) being sent
-	local itemCount = 0;
-	local itemTitle;
-	local gap = false;
-	local last = 0;
-	for i=1, ATTACHMENTS_MAX_SEND do
-		local sendMailAttachmentButton = SendMailFrame.SendMailAttachments[i];
+-- function SendMailFrame_Update()
+-- 	-- Update the item(s) being sent
+-- 	local itemCount = 0;
+-- 	local itemTitle;
+-- 	local gap = false;
+-- 	local last = 0;
+-- 	for i=1, ATTACHMENTS_MAX_SEND do
+-- 		local sendMailAttachmentButton = SendMailFrame.SendMailAttachments[i];
 
-		if HasSendMailItem(i) then
-			itemCount = itemCount + 1;
+-- 		if HasSendMailItem(i) then
+-- 			itemCount = itemCount + 1;
 
-			local itemName, itemID, itemTexture, stackCount, quality = GetSendMailItem(i);
-			sendMailAttachmentButton:SetNormalTexture(itemTexture or "Interface\\Icons\\INV_Misc_QuestionMark");
-			SetItemButtonCount(sendMailAttachmentButton, stackCount or 0);
-			SetItemButtonQuality(sendMailAttachmentButton, quality, itemID);
+-- 			local itemName, itemID, itemTexture, stackCount, quality = GetSendMailItem(i);
+-- 			sendMailAttachmentButton:SetNormalTexture(itemTexture or "Interface\\Icons\\INV_Misc_QuestionMark");
+-- 			SetItemButtonCount(sendMailAttachmentButton, stackCount or 0);
+-- 			SetItemButtonQuality(sendMailAttachmentButton, quality, itemID);
 		
-			-- determine what a name for the message in case it doesn't already have one
-			if not itemTitle and itemName then
-				if stackCount <= 1 then
-					itemTitle = itemName;
-				else
-					itemTitle = itemName.." ("..stackCount..")";
-				end
-			end
+-- 			-- determine what a name for the message in case it doesn't already have one
+-- 			if not itemTitle and itemName then
+-- 				if stackCount <= 1 then
+-- 					itemTitle = itemName;
+-- 				else
+-- 					itemTitle = itemName.." ("..stackCount..")";
+-- 				end
+-- 			end
 
-			if last + 1 ~= i then
-				gap = true;
-			end
-			last = i;
-		else
-			sendMailAttachmentButton:SetNormalTexture(nil);
-			SetItemButtonCount(sendMailAttachmentButton, 0);
-			SetItemButtonQuality(sendMailAttachmentButton, nil);
-		end
-	end
+-- 			if last + 1 ~= i then
+-- 				gap = true;
+-- 			end
+-- 			last = i;
+-- 		else
+-- 			sendMailAttachmentButton:SetNormalTexture(nil);
+-- 			SetItemButtonCount(sendMailAttachmentButton, 0);
+-- 			SetItemButtonQuality(sendMailAttachmentButton, nil);
+-- 		end
+-- 	end
 
-	-- Enable or disable C.O.D. depending on whether or not there's an item to send
-	if ( itemCount > 0 ) then
-		SendMailCODButton:Enable();
-		SendMailCODButtonText:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+-- 	-- Enable or disable C.O.D. depending on whether or not there's an item to send
+-- 	if ( itemCount > 0 ) then
+-- 		SendMailCODButton:Enable();
+-- 		SendMailCODButtonText:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 
-		if SendMailSubjectEditBox:GetText() == "" or SendMailSubjectEditBox:GetText() == SendMailFrame.previousItem then
-			itemTitle = itemTitle or "";
-			SendMailSubjectEditBox:SetText(itemTitle);
-			SendMailFrame.previousItem = itemTitle;
-		end
-	else
-		-- If no itemname see if the subject is the name of the previously held item, if so clear the subject
-		if ( SendMailSubjectEditBox:GetText() == SendMailFrame.previousItem ) then
-			SendMailSubjectEditBox:SetText("");	
-		end
-		SendMailFrame.previousItem = "";
+-- 		if SendMailSubjectEditBox:GetText() == "" or SendMailSubjectEditBox:GetText() == SendMailFrame.previousItem then
+-- 			itemTitle = itemTitle or "";
+-- 			SendMailSubjectEditBox:SetText(itemTitle);
+-- 			SendMailFrame.previousItem = itemTitle;
+-- 		end
+-- 	else
+-- 		-- If no itemname see if the subject is the name of the previously held item, if so clear the subject
+-- 		if ( SendMailSubjectEditBox:GetText() == SendMailFrame.previousItem ) then
+-- 			SendMailSubjectEditBox:SetText("");	
+-- 		end
+-- 		SendMailFrame.previousItem = "";
 
-		SendMailRadioButton_OnClick(1);
-		SendMailCODButton:Disable();
-		SendMailCODButtonText:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
-	end
-	-- Update the cost
-	MoneyFrame_Update("SendMailCostMoneyFrame", GetSendMailPrice());	
+-- 		SendMailRadioButton_OnClick(1);
+-- 		SendMailCODButton:Disable();
+-- 		SendMailCODButtonText:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+-- 	end
+-- 	-- Update the cost
+-- 	MoneyFrame_Update("SendMailCostMoneyFrame", GetSendMailPrice());	
 	
-	-- Color the postage text
-	if ( GetSendMailPrice() > GetMoney() ) then
-		SetMoneyFrameColor("SendMailCostMoneyFrame", "red");
-	else
-		SetMoneyFrameColor("SendMailCostMoneyFrame", "white");
-	end
+-- 	-- Color the postage text
+-- 	if ( GetSendMailPrice() > GetMoney() ) then
+-- 		SetMoneyFrameColor("SendMailCostMoneyFrame", "red");
+-- 	else
+-- 		SetMoneyFrameColor("SendMailCostMoneyFrame", "white");
+-- 	end
 
-	-- Determine how many rows of attachments to show
-	local itemRowCount = 1;
-	local temp = last;
-	while ((temp > ATTACHMENTS_PER_ROW_SEND) and (itemRowCount < ATTACHMENTS_MAX_ROWS_SEND)) do
-		itemRowCount = itemRowCount + 1;
-		temp = temp - ATTACHMENTS_PER_ROW_SEND;
-	end
-	if (not gap and (temp == ATTACHMENTS_PER_ROW_SEND) and (itemRowCount < ATTACHMENTS_MAX_ROWS_SEND)) then
-		itemRowCount = itemRowCount + 1;
-	end
-	if (SendMailFrame.maxRowsShown and (last > 0) and (itemRowCount < SendMailFrame.maxRowsShown)) then
-		itemRowCount = SendMailFrame.maxRowsShown;
-	else
-		SendMailFrame.maxRowsShown = itemRowCount;
-	end
+-- 	-- Determine how many rows of attachments to show
+-- 	local itemRowCount = 1;
+-- 	local temp = last;
+-- 	while ((temp > ATTACHMENTS_PER_ROW_SEND) and (itemRowCount < ATTACHMENTS_MAX_ROWS_SEND)) do
+-- 		itemRowCount = itemRowCount + 1;
+-- 		temp = temp - ATTACHMENTS_PER_ROW_SEND;
+-- 	end
+-- 	if (not gap and (temp == ATTACHMENTS_PER_ROW_SEND) and (itemRowCount < ATTACHMENTS_MAX_ROWS_SEND)) then
+-- 		itemRowCount = itemRowCount + 1;
+-- 	end
+-- 	if (SendMailFrame.maxRowsShown and (last > 0) and (itemRowCount < SendMailFrame.maxRowsShown)) then
+-- 		itemRowCount = SendMailFrame.maxRowsShown;
+-- 	else
+-- 		SendMailFrame.maxRowsShown = itemRowCount;
+-- 	end
 
-	-- Compute sizes
-	local cursorx = 0;
-	local cursory = itemRowCount - 1;
-	local marginxl = 8 + 6;
-	local marginxr = 40 + 6;
-	local areax = SendMailFrame:GetWidth() - marginxl - marginxr;
-	local iconx = SendMailAttachment1:GetWidth() + 2;
-	local icony = SendMailAttachment1:GetHeight() + 2;
-	local gapx1 = floor((areax - (iconx * ATTACHMENTS_PER_ROW_SEND)) / (ATTACHMENTS_PER_ROW_SEND - 1));
-	local gapx2 = floor((areax - (iconx * ATTACHMENTS_PER_ROW_SEND) - (gapx1 * (ATTACHMENTS_PER_ROW_SEND - 1))) / 2);
-	local gapy1 = 5;
-	local gapy2 = 6;
-	local areay = (gapy2 * 2) + (gapy1 * (itemRowCount - 1)) + (icony * itemRowCount);
-	local indentx = marginxl + gapx2;
-	local indenty = 170 + gapy2 + icony;
-	local tabx = (iconx + gapx1) - 2; --this magic number changes the attachment spacing
-	local taby = (icony + gapy1);
-	local scrollHeight = 249 - areay;
+-- 	-- Compute sizes
+-- 	local cursorx = 0;
+-- 	local cursory = itemRowCount - 1;
+-- 	local marginxl = 8 + 6;
+-- 	local marginxr = 40 + 6;
+-- 	local areax = SendMailFrame:GetWidth() - marginxl - marginxr;
+-- 	local iconx = SendMailAttachment1:GetWidth() + 2;
+-- 	local icony = SendMailAttachment1:GetHeight() + 2;
+-- 	local gapx1 = floor((areax - (iconx * ATTACHMENTS_PER_ROW_SEND)) / (ATTACHMENTS_PER_ROW_SEND - 1));
+-- 	local gapx2 = floor((areax - (iconx * ATTACHMENTS_PER_ROW_SEND) - (gapx1 * (ATTACHMENTS_PER_ROW_SEND - 1))) / 2);
+-- 	local gapy1 = 5;
+-- 	local gapy2 = 6;
+-- 	local areay = (gapy2 * 2) + (gapy1 * (itemRowCount - 1)) + (icony * itemRowCount);
+-- 	local indentx = marginxl + gapx2;
+-- 	local indenty = 170 + gapy2 + icony;
+-- 	local tabx = (iconx + gapx1) - 2; --this magic number changes the attachment spacing
+-- 	local taby = (icony + gapy1);
+-- 	local scrollHeight = 249 - areay;
 
-	SendMailHorizontalBarLeft2:SetPoint("TOPLEFT", "SendMailFrame", "BOTTOMLEFT", 2, 184 + areay);
-	SendStationeryBackgroundLeft:SetHeight(min(scrollHeight, 256));
-	SendStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
-	SendStationeryBackgroundRight:SetHeight(min(scrollHeight, 256));
-	SendStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
-	SendStationeryBackgroundLeft:SetTexture("Interface/Stationery/stationerytest1");
-	SendStationeryBackgroundRight:SetTexture("Interface/Stationery/stationerytest2");
+-- 	SendMailHorizontalBarLeft2:SetPoint("TOPLEFT", "SendMailFrame", "BOTTOMLEFT", 2, 184 + areay);
+-- 	SendStationeryBackgroundLeft:SetHeight(min(scrollHeight, 256));
+-- 	SendStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+-- 	SendStationeryBackgroundRight:SetHeight(min(scrollHeight, 256));
+-- 	SendStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+-- 	SendStationeryBackgroundLeft:SetTexture("Interface/Stationery/stationerytest1");
+-- 	SendStationeryBackgroundRight:SetTexture("Interface/Stationery/stationerytest2");
 	
-	-- Set Items
-	for i=1, ATTACHMENTS_MAX_SEND do
-		if (cursory >= 0) then
-			SendMailFrame.SendMailAttachments[i]:Enable();
-			SendMailFrame.SendMailAttachments[i]:Show();
-			SendMailFrame.SendMailAttachments[i]:SetPoint("TOPLEFT", "SendMailFrame", "BOTTOMLEFT", indentx + (tabx * cursorx), indenty + (taby * cursory));
+-- 	-- Set Items
+-- 	for i=1, ATTACHMENTS_MAX_SEND do
+-- 		if (cursory >= 0) then
+-- 			SendMailFrame.SendMailAttachments[i]:Enable();
+-- 			SendMailFrame.SendMailAttachments[i]:Show();
+-- 			SendMailFrame.SendMailAttachments[i]:SetPoint("TOPLEFT", "SendMailFrame", "BOTTOMLEFT", indentx + (tabx * cursorx), indenty + (taby * cursory));
 			
-			cursorx = cursorx + 1;
-			if (cursorx >= ATTACHMENTS_PER_ROW_SEND) then
-				cursory = cursory - 1;
-				cursorx = 0;
-			end
-		else
-			SendMailFrame.SendMailAttachments[i]:Hide();
-		end
-	end
-	for i=ATTACHMENTS_MAX_SEND+1, ATTACHMENTS_MAX do
-		SendMailFrame.SendMailAttachments[i]:Hide();
-	end
+-- 			cursorx = cursorx + 1;
+-- 			if (cursorx >= ATTACHMENTS_PER_ROW_SEND) then
+-- 				cursory = cursory - 1;
+-- 				cursorx = 0;
+-- 			end
+-- 		else
+-- 			SendMailFrame.SendMailAttachments[i]:Hide();
+-- 		end
+-- 	end
+-- 	for i=ATTACHMENTS_MAX_SEND+1, ATTACHMENTS_MAX do
+-- 		SendMailFrame.SendMailAttachments[i]:Hide();
+-- 	end
 
-	SendMailFrame_CanSend();
-end
+-- 	SendMailFrame_CanSend();
+-- end
 
-function SendMailFrame_Reset()
-	SendMailNameEditBox:SetText("");
-	SendMailNameEditBox:SetFocus();
-	SendMailSubjectEditBox:SetText("");
-	MailEditBox:SetText("");
-	SendMailFrame_Update();
-	MoneyInputFrame_ResetMoney(SendMailMoney);
-	SendMailRadioButton_OnClick(1);
-	SendMailFrame.maxRowsShown = 0;
-end
+-- function SendMailFrame_Reset()
+-- 	SendMailNameEditBox:SetText("");
+-- 	SendMailNameEditBox:SetFocus();
+-- 	SendMailSubjectEditBox:SetText("");
+-- 	MailEditBox:SetText("");
+-- 	SendMailFrame_Update();
+-- 	MoneyInputFrame_ResetMoney(SendMailMoney);
+-- 	SendMailRadioButton_OnClick(1);
+-- 	SendMailFrame.maxRowsShown = 0;
+-- end
 
-function SendMailFrame_CanSend()
-	local checks = 0;
-	local checksRequired = 2;
-	-- Has a sendee
-	if ( #SendMailNameEditBox:GetText() > 0 ) then
-		checks = checks + 1;
-	end
-	-- and has a subject
-	if ( #SendMailSubjectEditBox:GetText() > 0 ) then
-		checks = checks + 1;
-	end
-	-- check c.o.d. amount
-	if ( SendMailCODButton:GetChecked() ) then
-		checksRequired = checksRequired + 1;
-		-- COD must be less than 10000 gold
-		if ( MoneyInputFrame_GetCopper(SendMailMoney) > MAX_COD_AMOUNT * COPPER_PER_GOLD ) then
-			if ( ENABLE_COLORBLIND_MODE ~= "1" ) then
-				SendMailErrorCoin:Show();
-			end
-			SendMailErrorText:Show();			
-		else
-			SendMailErrorText:Hide();
-			SendMailErrorCoin:Hide();
-			checks = checks + 1;
-		end
-	end
+-- function SendMailFrame_CanSend()
+-- 	local checks = 0;
+-- 	local checksRequired = 2;
+-- 	-- Has a sendee
+-- 	if ( #SendMailNameEditBox:GetText() > 0 ) then
+-- 		checks = checks + 1;
+-- 	end
+-- 	-- and has a subject
+-- 	if ( #SendMailSubjectEditBox:GetText() > 0 ) then
+-- 		checks = checks + 1;
+-- 	end
+-- 	-- check c.o.d. amount
+-- 	if ( SendMailCODButton:GetChecked() ) then
+-- 		checksRequired = checksRequired + 1;
+-- 		-- COD must be less than 10000 gold
+-- 		if ( MoneyInputFrame_GetCopper(SendMailMoney) > MAX_COD_AMOUNT * COPPER_PER_GOLD ) then
+-- 			if ( ENABLE_COLORBLIND_MODE ~= "1" ) then
+-- 				SendMailErrorCoin:Show();
+-- 			end
+-- 			SendMailErrorText:Show();			
+-- 		else
+-- 			SendMailErrorText:Hide();
+-- 			SendMailErrorCoin:Hide();
+-- 			checks = checks + 1;
+-- 		end
+-- 	end
 	
-	if ( checks == checksRequired ) then
-		SendMailMailButton:Enable();
-	else
-		SendMailMailButton:Disable();
-	end
-end
+-- 	if ( checks == checksRequired ) then
+-- 		SendMailMailButton:Enable();
+-- 	else
+-- 		SendMailMailButton:Disable();
+-- 	end
+-- end
 
-function SendMailRadioButton_OnClick(index)
-	if ( index == 1 ) then
-		SendMailSendMoneyButton:SetChecked(true);
-		SendMailCODButton:SetChecked(false);
-		SendMailMoneyText:SetText(AMOUNT_TO_SEND);
-	else
-		SendMailSendMoneyButton:SetChecked(false);
-		SendMailCODButton:SetChecked(true);
-		SendMailMoneyText:SetText(COD_AMOUNT);
-	end
-	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
-end
+-- function SendMailRadioButton_OnClick(index)
+-- 	if ( index == 1 ) then
+-- 		SendMailSendMoneyButton:SetChecked(true);
+-- 		SendMailCODButton:SetChecked(false);
+-- 		SendMailMoneyText:SetText(AMOUNT_TO_SEND);
+-- 	else
+-- 		SendMailSendMoneyButton:SetChecked(false);
+-- 		SendMailCODButton:SetChecked(true);
+-- 		SendMailMoneyText:SetText(COD_AMOUNT);
+-- 	end
+-- 	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+-- end
 
-function SendMailMoneyButton_OnClick()
-	local cursorMoney = GetCursorMoney();
-	if ( cursorMoney > 0 ) then
-		local money = MoneyInputFrame_GetCopper(SendMailMoney);
-		if ( money > 0 ) then
-			cursorMoney = cursorMoney + money;
-		end
-		MoneyInputFrame_SetCopper(SendMailMoney, cursorMoney);
-		DropCursorMoney();
-	end
-end
+-- function SendMailMoneyButton_OnClick()
+-- 	local cursorMoney = GetCursorMoney();
+-- 	if ( cursorMoney > 0 ) then
+-- 		local money = MoneyInputFrame_GetCopper(SendMailMoney);
+-- 		if ( money > 0 ) then
+-- 			cursorMoney = cursorMoney + money;
+-- 		end
+-- 		MoneyInputFrame_SetCopper(SendMailMoney, cursorMoney);
+-- 		DropCursorMoney();
+-- 	end
+-- end
 
-function SendMailAttachmentButton_OnClick(self, button)
-	ClickSendMailItemButton(self:GetID(), button == "RightButton");
-end
+-- function SendMailAttachmentButton_OnClick(self, button)
+-- 	ClickSendMailItemButton(self:GetID(), button == "RightButton");
+-- end
 
-function SendMailAttachmentButton_OnDropAny()
-	ClickSendMailItemButton();
-end
+-- function SendMailAttachmentButton_OnDropAny()
+-- 	ClickSendMailItemButton();
+-- end
 
-function SendMailAttachment_OnEnter(self)
-	local index = self:GetID();
-	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-	if ( HasSendMailItem(index) ) then
-		local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetSendMailItem(index);
-		if(speciesID and speciesID > 0) then
-			BattlePetToolTip_Show(speciesID, level, breedQuality, maxHealth, power, speed, name);
-		end
-	else
-		GameTooltip:SetText(ATTACHMENT_TEXT, 1.0, 1.0, 1.0);
-	end
-	self.UpdateTooltip = SendMailAttachment_OnEnter;
-end
+-- function SendMailAttachment_OnEnter(self)
+-- 	local index = self:GetID();
+-- 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+-- 	if ( HasSendMailItem(index) ) then
+-- 		local hasCooldown, speciesID, level, breedQuality, maxHealth, power, speed, name = GameTooltip:SetSendMailItem(index);
+-- 		if(speciesID and speciesID > 0) then
+-- 			BattlePetToolTip_Show(speciesID, level, breedQuality, maxHealth, power, speed, name);
+-- 		end
+-- 	else
+-- 		GameTooltip:SetText(ATTACHMENT_TEXT, 1.0, 1.0, 1.0);
+-- 	end
+-- 	self.UpdateTooltip = SendMailAttachment_OnEnter;
+-- end
 
 -----------------------------------------------------------------------------------------------
 ---------------------------------------- Open All Mail ----------------------------------------

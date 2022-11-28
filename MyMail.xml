@@ -165,7 +165,7 @@
 		</Frames>
 	</Frame>
 
-	<Button name="SendMailAttachment" parentArray="SendMailAttachments" virtual="true">
+	<!-- <Button name="SendMailAttachment" parentArray="SendMailAttachments" virtual="true">
 		<Size x="37" y="37"/>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -223,7 +223,7 @@
 			</OnLeave>
 		</Scripts>
 		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
-	</Button>
+	</Button> -->
 	<Button name="OpenMailAttachment" parentArray="OpenMailAttachments" inherits="ItemButtonTemplate" virtual="true">
 		<Scripts>
 			<OnLoad>
