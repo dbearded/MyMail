@@ -189,7 +189,7 @@ function InboxFrame_Update()
 			if ( not sender ) then
 				sender = UNKNOWN;
 			end
-			button = _G["MailItem"..i.."Button"];
+			button = _G["MyMailItem"..i.."Button"];
 			button:Show();
 			button.index = index;
 			button.hasItem = itemCount;
@@ -202,24 +202,24 @@ function InboxFrame_Update()
 				button.IconOverlay:Hide();
 			end
 			
-			buttonIcon = _G["MailItem"..i.."ButtonIcon"];
+			buttonIcon = _G["MyMailItem"..i.."ButtonIcon"];
 			buttonIcon:SetTexture(icon);
-			subjectText = _G["MailItem"..i.."Subject"];
+			subjectText = _G["MyMailItem"..i.."Subject"];
 			subjectText:SetText(subject);
-			senderText = _G["MailItem"..i.."Sender"];
+			senderText = _G["MyMailItem"..i.."Sender"];
 			senderText:SetText(sender);
 			
 			-- If hasn't been read color the button yellow
 			if ( wasRead ) then
 				senderText:SetTextColor(0.75, 0.75, 0.75);
 				subjectText:SetTextColor(0.75, 0.75, 0.75);
-				_G["MailItem"..i.."ButtonSlot"]:SetVertexColor(0.5, 0.5, 0.5);
+				_G["MyMailItem"..i.."ButtonSlot"]:SetVertexColor(0.5, 0.5, 0.5);
 				SetDesaturation(buttonIcon, true);
 				button.IconBorder:SetVertexColor(0.5, 0.5, 0.5);
 			else
 				senderText:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 				subjectText:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
-				_G["MailItem"..i.."ButtonSlot"]:SetVertexColor(1.0, 0.82, 0);
+				_G["MyMailItem"..i.."ButtonSlot"]:SetVertexColor(1.0, 0.82, 0);
 				SetDesaturation(buttonIcon, false);
 			end
 			-- Format expiration time
@@ -228,7 +228,7 @@ function InboxFrame_Update()
 			else
 				daysLeft = RED_FONT_COLOR_CODE..SecondsToTime(floor(daysLeft * 24 * 60 * 60))..FONT_COLOR_CODE_CLOSE;
 			end
-			expireTime = _G["MailItem"..i.."ExpireTime"];
+			expireTime = _G["MyMailItem"..i.."ExpireTime"];
 			expireTime:SetText(daysLeft);
 			-- Set expiration time tooltip
 			if ( InboxItemCanDelete(index) ) then
@@ -239,12 +239,12 @@ function InboxFrame_Update()
 			expireTime:Show();
 			-- Is a C.O.D. package
 			if ( CODAmount > 0 ) then
-				_G["MailItem"..i.."ButtonCOD"]:Show();
-				_G["MailItem"..i.."ButtonCODBackground"]:Show();
+				_G["MyMailItem"..i.."ButtonCOD"]:Show();
+				_G["MyMailItem"..i.."ButtonCODBackground"]:Show();
 				button.cod = CODAmount;
 			else
-				_G["MailItem"..i.."ButtonCOD"]:Hide();
-				_G["MailItem"..i.."ButtonCODBackground"]:Hide();
+				_G["MyMailItem"..i.."ButtonCOD"]:Hide();
+				_G["MyMailItem"..i.."ButtonCODBackground"]:Hide();
 				button.cod = nil;
 			end
 			-- Contains money
@@ -262,10 +262,10 @@ function InboxFrame_Update()
 			end
 		else
 			-- Clear everything
-			_G["MailItem"..i.."Button"]:Hide();
-			_G["MailItem"..i.."Sender"]:SetText("");
-			_G["MailItem"..i.."Subject"]:SetText("");
-			_G["MailItem"..i.."ExpireTime"]:Hide();
+			_G["MyMailItem"..i.."Button"]:Hide();
+			_G["MyMailItem"..i.."Sender"]:SetText("");
+			_G["MyMailItem"..i.."Subject"]:SetText("");
+			_G["MyMailItem"..i.."ExpireTime"]:Hide();
 			MoneyInputFrame_ResetMoney(SendMailMoney);
 		end
 		index = index + 1;

@@ -9,7 +9,7 @@
 			</OnClick>
 		</Scripts>
 	</CheckButton> -->
-	<Frame name="MailItemTemplate" virtual="true">
+	<Frame name="MyMailItemTemplate" virtual="true">
 		<Size x="305" y="45"/>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -348,39 +348,39 @@
 							</OnLeave>
 						</Scripts>
 					</Frame>				
-					<Frame name="MailItem1" inherits="MailItemTemplate">
+					<Frame name="MyMailItem1" inherits="MyMailItemTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" x="13" y="-70"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem2" inherits="MailItemTemplate">
+					<Frame name="MyMailItem2" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem1" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem1" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem3" inherits="MailItemTemplate">
+					<Frame name="MyMailItem3" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem2" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem2" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem4" inherits="MailItemTemplate">
+					<Frame name="MyMailItem4" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem3" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem3" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem5" inherits="MailItemTemplate">
+					<Frame name="MyMailItem5" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem4" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem4" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem6" inherits="MailItemTemplate">
+					<Frame name="MyMailItem6" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem5" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem5" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
-					<Frame name="MailItem7" inherits="MailItemTemplate">
+					<Frame name="MyMailItem7" inherits="MyMailItemTemplate">
 						<Anchors>
-							<Anchor point="TOPLEFT" relativeTo="MailItem6" relativePoint="BOTTOMLEFT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" relativeTo="MyMailItem6" relativePoint="BOTTOMLEFT" x="0" y="0"/>
 						</Anchors>
 					</Frame>
 					<Button name="InboxPrevPageButton">
