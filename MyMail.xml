@@ -520,7 +520,7 @@
 						</Scripts>
 						<Layers>
 							<Layer level="BACKGROUND">
-								<Texture name="SendMyStationaryBackgroundLeft">
+								<Texture name="SendMyStationeryBackgroundLeft">
 									<Size x="252" y="256"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" x="-20" y="11"/>
@@ -529,7 +529,7 @@
 								<Texture name="SendMyStationeryBackgroundRight">
 									<Size x="64" y="256"/>
 									<Anchors>
-										<Anchor point="TOPLEFT" relativeTo="SendMyStationaryBackgroundLeft" relativePoint="TOPRIGHT"/>
+										<Anchor point="TOPLEFT" relativeTo="SendMyStationeryBackgroundLeft" relativePoint="TOPRIGHT"/>
 									</Anchors>
 								</Texture>
 							</Layer>
@@ -584,7 +584,7 @@
 							</OnLoad>
 							<OnTabPressed>
 								if ( not AutoCompleteEditBox_OnTabPressed(self) ) then
-									EditBox_HandleTabbing(self, SEND_MAIL_TAB_LIST);
+									EditBox_HandleTabbing(self, SEND_MY_MAIL_TAB_LIST);
 								end
 							</OnTabPressed>
 							<OnEditFocusLost>
@@ -666,7 +666,7 @@
 						</Layers>
 						<Scripts>
 							<OnTabPressed>
-								EditBox_HandleTabbing(self, SEND_MAIL_TAB_LIST);
+								EditBox_HandleTabbing(self, SEND_MY_MAIL_TAB_LIST);
 							</OnTabPressed>
 							<OnEnterPressed>
 								MyMailEditBox:SetFocus();
@@ -848,7 +848,7 @@
 				SendMyMailNameEditBox:SetText("");
 				SendMyMailSubjectEditBox:SetText("");
 				PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
-				SetSendMyMailShowing(false);
+				SetSendMailShowing(false);
 			</OnHide>
 			<OnMouseWheel function="MyMailFrame_OnMouseWheel"/>
 		</Scripts>
@@ -1277,4 +1277,3 @@
 		</Scripts>
 	</Frame>
 </Ui>
-

@@ -1,9 +1,15 @@
 SLASH_MYMAIL1 = "/mm"
 SLASH_MYMAIL2 = "/mymail"
 SlashCmdList["MYMAIL"] = function(msg)
-    print("Showing MyMailFrame")
-    MyMailFrame_OnLoad(MyMailFrame)
+	ShowUIPanel(MyMailFrame)
 end
+
+SEND_MY_MAIL_TAB_LIST = {};
+SEND_MY_MAIL_TAB_LIST[1] = "SendMyMailNameEditBox";
+SEND_MY_MAIL_TAB_LIST[2] = "SendMyMailSubjectEditBox";
+SEND_MY_MAIL_TAB_LIST[3] = "MyMailEditBox";
+SEND_MY_MAIL_TAB_LIST[4] = "SendMyMailMoneyGold";
+SEND_MY_MAIL_TAB_LIST[5] = "SendMyMailMoneyCopper";
 
 function MyMailFrame_OnLoad(self)
 	UIPanelWindows["MyMailFrame"] = {
@@ -30,7 +36,7 @@ function MyMailFrame_OnLoad(self)
 	self:RegisterEvent("MAIL_UNLOCK_SEND_ITEMS");
 	self:RegisterEvent("TRIAL_STATUS_UPDATE");
 	-- Set previous and next fields
-	MoneyInputFrame_SetPreviousFocus(SendMyMailMoney, MailEditBox);
+	MoneyInputFrame_SetPreviousFocus(SendMyMailMoney, MyMailEditBox);
 	MoneyInputFrame_SetNextFocus(SendMyMailMoney, SendMyMailNameEditBox);
 	MoneyFrame_SetMaxDisplayWidth(SendMyMailMoneyFrame, 160);
 	MyMailFrame_UpdateTrialState(self);
@@ -765,7 +771,7 @@ function OpenMyMail_Reply()
 		subject = prefix..subject;
 	end
 	SendMyMailSubjectEditBox:SetText(subject)
-	MailEditBox:GetEditBox():SetFocus();
+	MyMailEditBox:GetEditBox():SetFocus();
 
 	-- Set the send mode so the work flow can change accordingly
 	SendMyMailFrame.sendMode = "reply";
@@ -854,7 +860,7 @@ function SendMyMailMailButton_OnClick(self)
 end
 
 function SendMyMailFrame_SendMyMail()
-	SendMyMail(SendMyMailNameEditBox:GetText(), SendMyMailSubjectEditBox:GetText(), MailEditBox:GetInputText());
+	SendMyMail(SendMyMailNameEditBox:GetText(), SendMyMailSubjectEditBox:GetText(), MyMailEditBox:GetInputText());
 end
 
 function SendMyMailFrame_EnableSendMyMailButton()
@@ -920,10 +926,10 @@ function SendMyMailFrame_Update()
 		SendMyMailCODButtonText:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 	end
 	-- Update the cost
-	MoneyFrame_Update("SendMyMailCostMoneyFrame", GetSendMyMailPrice());	
+	MoneyFrame_Update("SendMyMailCostMoneyFrame", GetSendMailPrice());	
 	
 	-- Color the postage text
-	if ( GetSendMyMailPrice() > GetMoney() ) then
+	if ( GetSendMailPrice() > GetMoney() ) then
 		SetMoneyFrameColor("SendMyMailCostMoneyFrame", "red");
 	else
 		SetMoneyFrameColor("SendMyMailCostMoneyFrame", "white");
@@ -965,12 +971,12 @@ function SendMyMailFrame_Update()
 	local scrollHeight = 249 - areay;
 
 	SendMyMailHorizontalBarLeft2:SetPoint("TOPLEFT", "SendMyMailFrame", "BOTTOMLEFT", 2, 184 + areay);
-	SendStationeryBackgroundLeft:SetHeight(min(scrollHeight, 256));
-	SendStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
-	SendStationeryBackgroundRight:SetHeight(min(scrollHeight, 256));
-	SendStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
-	SendStationeryBackgroundLeft:SetTexture("Interface/Stationery/stationerytest1");
-	SendStationeryBackgroundRight:SetTexture("Interface/Stationery/stationerytest2");
+	SendMyStationeryBackgroundLeft:SetHeight(min(scrollHeight, 256));
+	SendMyStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+	SendMyStationeryBackgroundRight:SetHeight(min(scrollHeight, 256));
+	SendMyStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+	SendMyStationeryBackgroundLeft:SetTexture("Interface/Stationery/stationerytest1");
+	SendMyStationeryBackgroundRight:SetTexture("Interface/Stationery/stationerytest2");
 	
 	-- Set Items
 	for i=1, ATTACHMENTS_MAX_SEND do
@@ -999,7 +1005,7 @@ function SendMyMailFrame_Reset()
 	SendMyMailNameEditBox:SetText("");
 	SendMyMailNameEditBox:SetFocus();
 	SendMyMailSubjectEditBox:SetText("");
-	MailEditBox:SetText("");
+	MyMailEditBox:SetText("");
 	SendMyMailFrame_Update();
 	MoneyInputFrame_ResetMoney(SendMyMailMoney);
 	SendMyMailRadioButton_OnClick(1);
@@ -1237,10 +1243,10 @@ function MyOpenAllMailMixin:IsItemBlacklisted(itemID)
 end
 
 function SendMyMailEditBox_OnLoad()
-	ScrollUtil.RegisterScrollBoxWithScrollBar(MailEditBox.ScrollBox, MailEditBoxScrollBar);
-	MailEditBox:RegisterCallback("OnTabPressed", SendMyMailEditBox_OnTabPressed, MailEditBox);
+	ScrollUtil.RegisterScrollBoxWithScrollBar(MyMailEditBox.ScrollBox, MyMailEditBoxScrollBar);
+	MyMailEditBox:RegisterCallback("OnTabPressed", SendMyMailEditBox_OnTabPressed, MyMailEditBox);
 end
 
 function SendMyMailEditBox_OnTabPressed(self)
-	EditBox_HandleTabbing(self, SEND_MAIL_TAB_LIST);
+	EditBox_HandleTabbing(self, SEND_MY_MAIL_TAB_LIST);
 end
