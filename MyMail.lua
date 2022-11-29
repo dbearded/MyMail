@@ -506,8 +506,8 @@ function OpenMyMail_Update()
 	local bodyText, stationeryID1, stationeryID2, isTakeable, isInvoice = GetInboxText(MyInboxFrame.OpenMyMailID);
 	OpenMyMailBodyText:SetText(bodyText, true);
 	if ( stationeryID1 and stationeryID2 ) then
-		OpenStationeryBackgroundLeft:SetTexture(stationeryID1);
-		OpenStationeryBackgroundRight:SetTexture(stationeryID2);
+		OpenMyStationeryBackgroundLeft:SetTexture(stationeryID1);
+		OpenMyStationeryBackgroundRight:SetTexture(stationeryID2);
 	end
 
 	-- Is an invoice
@@ -647,12 +647,12 @@ function OpenMyMail_Update()
 	OpenMyMailScrollFrame:SetHeight(scrollHeight);
 	OpenMyMailScrollChildFrame:SetHeight(scrollHeight);
 	OpenMyMailHorizontalBarLeft:SetPoint("TOPLEFT", "OpenMyMailFrame", "BOTTOMLEFT", 2, 39 + areay);
-	OpenScrollBarBackgroundTop:SetHeight(min(scrollHeight, 256));
-	OpenScrollBarBackgroundTop:SetTexCoord(0, 0.484375, 0, min(scrollHeight, 256) / 256);
-	OpenStationeryBackgroundLeft:SetHeight(scrollHeight);
-	OpenStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
-	OpenStationeryBackgroundRight:SetHeight(scrollHeight);
-	OpenStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+	OpenMyScrollBarBackgroundTop:SetHeight(min(scrollHeight, 256));
+	OpenMyScrollBarBackgroundTop:SetTexCoord(0, 0.484375, 0, min(scrollHeight, 256) / 256);
+	OpenMyStationeryBackgroundLeft:SetHeight(scrollHeight);
+	OpenMyStationeryBackgroundLeft:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
+	OpenMyStationeryBackgroundRight:SetHeight(scrollHeight);
+	OpenMyStationeryBackgroundRight:SetTexCoord(0, 1.0, 0, min(scrollHeight, 256) / 256);
 
 	-- Set attachment text
 	if ( itemButtonCount > 0 ) then
